@@ -2,30 +2,52 @@ package com.example.demo;
 
 import javafx.application.Platform;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameThread extends Thread{
     private int deltaTime = 50;
-    private Rectangle output;
+
+    private int direction;
+
+    public void setDirection(int direction) {
+        this.direction = direction;
+    }
 
     private Pane canvas;
     @Override
     public void run() {
-        Random rng = new Random();
+        List<Rectangle> rectangles = new ArrayList<>();
+        // v: X, v1: Y, v2: width, v3: height
+        rectangles.add(new Rectangle(300, 0, 100, 100));
+        rectangles.add(new Rectangle(200, 0, 100, 100));
+        rectangles.add(new Rectangle(100, 0, 100, 100));
+
+        Platform.runLater(() -> {
+            for (Rectangle rectangle: rectangles) {
+                canvas.getChildren().add(rectangle);
+            }
+        });
+        // Game loop
         for (;;) {
+            rectangles.getLast().setX(rectangles.getFirst().getX() + 100 * direction);
+
+            rectangles.addFirst(rectangles.getLast());
+
+            rectangles.removeLast();
+            /**
+             * Nur fuer euch :)  (NICHT LOESCHEN!!!!!)
+            rectangle.setX(100 + rectangle.getX());
+            rectangle.setHeight(rectangle.getHeight()/2);
+
+            rectangle2.setX(105 + rectangle.getX());
+
+            rectangle2.setFill(new Color(Math.random(), Math.random(), Math.random(), 1));
+             **/
+
             // Create new Rectangle 2. Layer
-            Rectangle snakeBlock = new Rectangle(rng.nextInt(400),rng.nextInt(400),rng.nextInt(600),rng.nextInt(600));
-            snakeBlock.setFill(Color.rgb(rng.nextInt(222), rng.nextInt(222), rng.nextInt(222)));
-            Circle c = new Circle(rng.nextInt(400),rng.nextInt(400),rng.nextInt(600));
-            c.setFill(Color.rgb(rng.nextInt(222), rng.nextInt(222), rng.nextInt(222)));
-            Platform.runLater(() -> {
-                canvas.getChildren().add(c);
-                canvas.getChildren().add(snakeBlock);
-            });
 
             try {
                 Thread.sleep(deltaTime/10);

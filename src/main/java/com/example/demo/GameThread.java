@@ -32,11 +32,11 @@ public class GameThread extends Thread{
         });
         // Game loop
         for (;;) {
-            rectangles.getLast().setX(rectangles.getFirst().getX() + 100 * direction);
+            rectangles.get(rectangles.size()-1).setX(rectangles.get(0).getX() + 100 * direction);
 
-            rectangles.addFirst(rectangles.getLast());
+            rectangles.add(0,rectangles.get(rectangles.size()-1));
 
-            rectangles.removeLast();
+            rectangles.remove(rectangles.size()-1);
             /**
              * Nur fuer euch :)  (NICHT LOESCHEN!!!!!)
             rectangle.setX(100 + rectangle.getX());

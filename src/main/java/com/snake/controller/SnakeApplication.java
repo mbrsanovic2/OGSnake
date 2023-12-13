@@ -1,18 +1,15 @@
-package com.example.demo;
+package com.snake.controller;
 
+import com.snake.model.GameStep;
+import com.snake.view.GameBoard;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
-public class HelloApplication extends Application {
+public class SnakeApplication extends Application {
     @Override
     public void start(Stage stage) {
 
@@ -27,18 +24,19 @@ public class HelloApplication extends Application {
         stage.setTitle("Rectangle Drawing App");
         stage.setScene(scene);
         stage.show();
+        GameBoard gameBoard = new GameBoard(canvas);
+        GameStep gameStep = new GameStep(gameBoard);
 
-
-        GameThread thread = new GameThread();
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
             if(key.getCode()== KeyCode.A) {
-                thread.setDirection(-1);
+                gameStep.setDirection(-1);
             }else if(key.getCode()== KeyCode.D){
-                thread.setDirection(1);
+                gameStep.setDirection(1);
             }
+            //todo: Add other keys
         });
-        thread.setPane(canvas);
-        thread.setDeltaTime(5000);
+        GameThread thread = new GameThread(gameBoard, gameStep, 4000);
+
         thread.start();
     }
 

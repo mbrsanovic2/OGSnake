@@ -3,6 +3,8 @@ module com.example.demo {
     requires javafx.fxml;
 
 
-    opens com.example.demo to javafx.fxml;
-    exports com.example.demo;
+    exports com.snake.controller;
+    exports com.snake.model;
+    exports com.snake.view;
+    opens com.snake.controller to javafx.fxml;
 }

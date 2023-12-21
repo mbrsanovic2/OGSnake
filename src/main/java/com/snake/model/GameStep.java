@@ -3,14 +3,20 @@ package com.snake.model;
 import com.snake.view.GameBoard;
 import javafx.scene.shape.Rectangle;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class GameStep {
     private int direction;
+
+    // todo: SnakeSegment instead of Rectangle?
     private List<Rectangle> snakeAsList = new LinkedList<>();
+    // Reference to View for Drawing purposes
     private GameBoard gameBoard;
+
+    // todo: Collision Detection
+    // todo: FruitSpawn
+    // todo: Vertical Movement
 
     public GameStep(GameBoard gameBoard){
         this.gameBoard = gameBoard;
@@ -30,9 +36,10 @@ public class GameStep {
         snakeAsList.add(0, snakeAsList.get(snakeAsList.size() - 1));
 
         snakeAsList.remove(snakeAsList.size() - 1);
-        return checkIfWon();
+        return checkIfOver();
     }
-    public boolean checkIfWon(){
+    // todo: Checking if Game should be Over
+    public boolean checkIfOver(){
         return false;
     }
     public void setDirection(int direction) {

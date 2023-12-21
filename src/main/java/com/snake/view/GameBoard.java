@@ -20,4 +20,6 @@ public class GameBoard {
             canvas.getChildren().add(shape);
         });
     }
+    // todo: DrawFruit
+    // todo: Setting up Initial GameState
 }

@@ -1,24 +1,27 @@
-HelloController.java:
-    class HelloController
-        Adding a MainMenu Scene for Mode Selection
+CONTROLLER
+    HelloController.java:
+       class HelloController
+          Adding a MainMenu Scene for Mode Selection
 
-SnakeApplication.java:
-    class Start
-        Add other Control-keys
+    SnakeApplication.java:
+        class Start
+C           Add other Control-keys
 
-GameStep.java:
-    class GameStep
-        add Method to spawn Fruits
-        Change snakeAsList to Type SnakeSegment
-    Method nextFrame
-        Add Vertical Movement
-    Method checkIfOver
-        Collision Detection
-        Check for GameOver
+    GameStep.java:
+        class GameStep
+J           add Method to spawn Fruits
+            Change snakeAsList to Type SnakeSegment
+        Method nextFrame
+C           Add Vertical Movement
+        Method checkIfOver
+            Collision Detection
+            Check for GameOver
 
-SnakeSegment.java:
-    Add everything
+MODEL
+    SnakeSegment.java:
+K       Add everything
 
-GameBoard.java:
-    Add DrawFruit Methode
-    Setting Up Initial GameState
+VIEW
+    GameBoard.java:
+J     Add DrawFruit Methode
+        Setting Up Initial GameState

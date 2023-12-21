@@ -9,7 +9,14 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+/**
+ * Defines the basic Things we need at the Start of our Application (View, Model, Controller)
+ */
 public class SnakeApplication extends Application {
+    /**
+     * Our Pseudo Main Method generates all starter Objects and Sets them
+     * @param stage JavaFx iternal thing
+     */
     @Override
     public void start(Stage stage) {
 
@@ -21,7 +28,7 @@ public class SnakeApplication extends Application {
         // Cannot resize Window
 
         // Set up the stage
-        stage.setTitle("Rectangle Drawing App");
+        stage.setTitle("Snake");
         stage.setScene(scene);
         stage.show();
         GameBoard gameBoard = new GameBoard(canvas);
@@ -35,7 +42,7 @@ public class SnakeApplication extends Application {
             }
             //todo: Add other keys
         });
-        GameThread thread = new GameThread(gameBoard, gameStep, 4000);
+        GameThread thread = new GameThread(gameBoard, gameStep, 400);
 
         thread.start();
     }

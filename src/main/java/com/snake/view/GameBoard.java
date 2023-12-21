@@ -5,6 +5,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
+/**
+ * Class that is responsible for Drawing things onto the Canvas over the drawShape Method
+ */
 public class GameBoard {
     private final Pane canvas;
     public GameBoard(Pane canvas){

@@ -9,18 +9,30 @@ import javafx.scene.shape.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Is responsible for alle the Game-Logic, implements some sort of Time Control
+ */
 public class GameThread extends Thread {
     private int deltaTime;
 
     private GameBoard gameBoard;
     private GameStep gameStep;
 
+    /**
+     * Constructor For our Game Thread
+     * @param gameBoard Our View (Draws Things on the Canvas)
+     * @param gameStep Our Logic (Defines what to Draw)
+     * @param deltaTime How long for every Frame
+     */
     public GameThread(GameBoard gameBoard, GameStep gameStep, int deltaTime) {
         this.gameBoard = gameBoard;
         this.gameStep = gameStep;
         this.deltaTime = deltaTime;
     }
 
+    /**
+     * Defines what happens in the Game Loop, implements things like time control(every Deltatime in Milliseconds)
+     */
     @Override
     public void run() {
         // Game loop
@@ -38,7 +50,7 @@ public class GameThread extends Thread {
              **/
 
             try {
-                Thread.sleep(deltaTime / 10);
+                Thread.sleep(deltaTime);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }

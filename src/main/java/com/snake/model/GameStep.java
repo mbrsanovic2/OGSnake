@@ -6,6 +6,9 @@ import javafx.scene.shape.Rectangle;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Class that defines the Logic of our Program, for example where to Draw the Snake/Fruit
+ */
 public class GameStep {
     private int direction;
 
@@ -18,6 +21,10 @@ public class GameStep {
     // todo: FruitSpawn
     // todo: Vertical Movement
 
+    /**
+     * Constructor which defines our Snake at the Start, and sets our View
+     * @param gameBoard Our View (Ding das Zeichnet)
+     */
     public GameStep(GameBoard gameBoard){
         this.gameBoard = gameBoard;
         // v: X, v1: Y, v2: width, v3: height
@@ -30,6 +37,10 @@ public class GameStep {
         }
     }
 
+    /**
+     * What should happen every Frame (ca. 400 ms)? This is defined in this Method
+     * @return If the Game-Loop should be stopped
+     */
     public boolean nextFrame(){
         snakeAsList.get(snakeAsList.size() - 1).setX(snakeAsList.get(0).getX() + 100 * direction);
 

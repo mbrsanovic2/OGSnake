@@ -3,6 +3,7 @@ package com.snake.controller;
 import com.snake.model.GameStep;
 import com.snake.view.GameBoard;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -43,8 +44,11 @@ public class SnakeApplication extends Application {
             //todo: Add other keys
         });
         GameThread thread = new GameThread(gameBoard, gameStep, 400);
-
         thread.start();
+    }
+    @Override
+    public void stop() {
+        System.exit(0);
     }
 
     public static void main(String[] args) {

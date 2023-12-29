@@ -37,14 +37,15 @@ public class SnakeApplication extends Application {
         GameStep gameStep = new GameStep(gameBoard);
 
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
-            if (key.getCode() == KeyCode.A) {
+            // assign direction to keyboard and prevent reverse movement
+            if (key.getCode() == KeyCode.A && gameStep.getDirection() != 1) {
                 gameStep.setDirection(-1);
-            } else if (key.getCode() == KeyCode.D) {
+            } else if (key.getCode() == KeyCode.D && gameStep.getDirection() != -1) {
                 gameStep.setDirection(1);
-            } else if (key.getCode() == KeyCode.W) {
-                gameStep.setDirection(2);
-            } else if (key.getCode() == KeyCode.S) {
+            } else if (key.getCode() == KeyCode.W && gameStep.getDirection() != 2) {
                 gameStep.setDirection(-2);
+            } else if (key.getCode() == KeyCode.S && gameStep.getDirection() != -2) {
+                gameStep.setDirection(2);
             }
         });
         GameThread thread = new GameThread(gameBoard, gameStep, 400);

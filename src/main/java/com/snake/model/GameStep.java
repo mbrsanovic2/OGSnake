@@ -28,9 +28,9 @@ public class GameStep {
     public GameStep(GameBoard gameBoard){
         this.gameBoard = gameBoard;
         // v: X, v1: Y, v2: width, v3: height
-        snakeAsList.add(new Rectangle(300, 0, 100, 100));
-        snakeAsList.add(new Rectangle(200, 0, 100, 100));
-        snakeAsList.add(new Rectangle(100, 0, 100, 100));
+        snakeAsList.add(new Rectangle(300, 200, 100, 100));
+        snakeAsList.add(new Rectangle(200, 200, 100, 100));
+        snakeAsList.add(new Rectangle(100, 200, 100, 100));
 
         for (Rectangle rectangle : snakeAsList) {
             gameBoard.drawShape(rectangle);
@@ -42,13 +42,14 @@ public class GameStep {
      * @return If the Game-Loop should be stopped
      */
     public boolean nextFrame(){
+        // set new values for last element depending on direction
         if (direction == 1 || direction == -1) {
-            // get last element of snake and set x value to first element's right x value and considering direction
             snakeAsList.get(snakeAsList.size() - 1).setX(snakeAsList.get(0).getX() + 100 * direction);
-        } //else if (direction == 2 || direction == -2) {
-            // get last element of snake and set x value to first element's right x value and considering direction
-            //snakeAsList.get(snakeAsList.size() - 1).setY(snakeAsList.get(0).getY() + (int)(100 * direction / 2));
-        //}
+            snakeAsList.get(snakeAsList.size() - 1).setY(snakeAsList.get(0).getY());
+        } else if (direction == 2 || direction == -2) {
+            snakeAsList.get(snakeAsList.size() - 1).setX(snakeAsList.get(0).getX());
+            snakeAsList.get(snakeAsList.size() - 1).setY(snakeAsList.get(0).getY() + (int)(100 * direction / 2));
+        }
 
         // add the last element as new element at the head of snake (first element)
         snakeAsList.add(0, snakeAsList.get(snakeAsList.size() - 1));
@@ -65,5 +66,7 @@ public class GameStep {
     public void setDirection(int direction) {
         this.direction = direction;
     }
-
+    public int getDirection() {
+        return direction;
+    }
 }

@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 public class SnakeApplication extends Application {
     /**
      * Our Pseudo Main Method generates all starter Objects and Sets them
+     *
      * @param stage JavaFx iternal thing
      */
     @Override
@@ -36,16 +37,20 @@ public class SnakeApplication extends Application {
         GameStep gameStep = new GameStep(gameBoard);
 
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
-            if(key.getCode()== KeyCode.A) {
+            if (key.getCode() == KeyCode.A) {
                 gameStep.setDirection(-1);
-            }else if(key.getCode()== KeyCode.D){
+            } else if (key.getCode() == KeyCode.D) {
                 gameStep.setDirection(1);
+            } else if (key.getCode() == KeyCode.W) {
+                gameStep.setDirection(2);
+            } else if (key.getCode() == KeyCode.S) {
+                gameStep.setDirection(-2);
             }
-            //todo: Add other keys
         });
         GameThread thread = new GameThread(gameBoard, gameStep, 400);
         thread.start();
     }
+
     @Override
     public void stop() {
         System.exit(0);

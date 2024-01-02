@@ -1,13 +1,14 @@
 package com.snake.model;
 
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
 /**
  * Simplification of the Rectangle, with only functions we need
  */
 public class SnakeSegment{
-    Rectangle snakeBody=new Rectangle(100,100);
+    Rectangle snakeBody=new Rectangle(100,100, 100, 100);
 
     /**
      * <pre>
@@ -15,7 +16,7 @@ public class SnakeSegment{
      * x & y positions are 0, size is 100x100, color is green</pre>
      */
     public SnakeSegment(){
-        snakeBody.setFill(Color.color(34, 201, 0));
+        snakeBody.setFill(Color.GREEN);
     }
 
     /**
@@ -26,11 +27,11 @@ public class SnakeSegment{
     public SnakeSegment(int xPos, int yPos){
         snakeBody.setX(xPos);
         snakeBody.setY(yPos);
-        snakeBody.setFill(Color.color(34, 201, 0));
+        snakeBody.setFill(Color.GREEN);
     }
 
     /**
-     * default size is 100x100
+     * default size is 100x100, use Color.rgb for custom, Color.color just crashes
      * @param xPos The X-Position of the snake-segment
      * @param yPos The Y-Position of the snake-segment
      * @param snakeColor The Color of the snake-segment
@@ -42,6 +43,8 @@ public class SnakeSegment{
     }
 
     /**
+     * use Color.rgb for custom,
+     * Color.color just crashes
      * @param xPos The X-Position of the snake-segment
      * @param yPos The Y-Position of the snake-segment
      * @param Size The size of the snake-segment, height=width
@@ -65,6 +68,12 @@ public class SnakeSegment{
         snakeBody.setX(xPos);
         snakeBody.setY(yPos);
     }
+
+    /**
+     * Sets the color of the snake-segment, use Color.rgb for custom,
+     * Color.color just crashes
+     * @param color
+     */
     public void setColor(Color color){
         snakeBody.setFill(color);
     }

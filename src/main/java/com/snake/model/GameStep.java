@@ -1,10 +1,13 @@
 package com.snake.model;
 
+import com.snake.controller.SnakeApplication;
 import com.snake.view.GameBoard;
 import javafx.scene.shape.Rectangle;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import java.util.Random;
 
 /**
  * Class that defines the Logic of our Program, for example where to Draw the Snake/Fruit
@@ -13,6 +16,9 @@ public class GameStep {
     private int direction;
     private int currentDirection;
     private List<SnakeSegment> snakeAsList = new LinkedList<>();
+
+    //Create a food rectangle
+    private Rectangle food = new Rectangle(0, 0, 100, 100);
 
     // Reference to View for Drawing purposes
     private GameBoard gameBoard;
@@ -25,6 +31,7 @@ public class GameStep {
      * @param gameBoard Our View (Ding das Zeichnet)
      */
     public GameStep(GameBoard gameBoard){
+
         this.gameBoard = gameBoard;
         // initial Rectangle parameters v: X, v1: Y, v2: width, v3: height
         snakeAsList.add((new SnakeSegment(300,200)));
@@ -34,6 +41,7 @@ public class GameStep {
         for (SnakeSegment snake : snakeAsList) {
             gameBoard.drawShape(snake.getRect());
         }
+        spawnFood();
     }
 
     /**
@@ -60,6 +68,11 @@ public class GameStep {
 
         currentDirection = direction;
 
+        // spawn food on another position if fruit is eaten
+        if (food.getX() == snakeAsList.get(0).getXPos() && food.getY() == snakeAsList.get(0).getYPos()){
+            spawnFood();
+        }
+
         return checkIfOver();
     }
     // todo: Checking if Game should be Over
@@ -72,4 +85,19 @@ public class GameStep {
     public int getCurrentDirection() {
         return currentDirection;
     }
+
+    public void spawnFood (){
+        //spawn food at a random position and print it
+        food.setX(generateRandomPosition(9));
+        food.setY(generateRandomPosition(6));
+        gameBoard.drawShape(food);
+    }
+
+    // Create a Random object for food position (9 and 6 for max size of the scene)
+    public int generateRandomPosition (int bound){
+        Random random = new Random();
+        return random.nextInt(bound) * 100;
+    }
+
+
 }

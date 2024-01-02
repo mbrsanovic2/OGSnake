@@ -38,13 +38,13 @@ public class SnakeApplication extends Application {
 
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
             // assign direction to keyboard and prevent reverse movement
-            if (key.getCode() == KeyCode.A && gameStep.getDirection() != 1) {
+            if (key.getCode() == KeyCode.A && gameStep.getCurrentDirection() != 1) {
                 gameStep.setDirection(-1);
-            } else if (key.getCode() == KeyCode.D && gameStep.getDirection() != -1) {
+            } else if (key.getCode() == KeyCode.D && gameStep.getCurrentDirection() != -1) {
                 gameStep.setDirection(1);
-            } else if (key.getCode() == KeyCode.W && gameStep.getDirection() != 2) {
+            } else if (key.getCode() == KeyCode.W && gameStep.getCurrentDirection() != 2) {
                 gameStep.setDirection(-2);
-            } else if (key.getCode() == KeyCode.S && gameStep.getDirection() != -2) {
+            } else if (key.getCode() == KeyCode.S && gameStep.getCurrentDirection() != -2) {
                 gameStep.setDirection(2);
             }
         });

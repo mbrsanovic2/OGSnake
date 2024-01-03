@@ -42,6 +42,7 @@ public class GameStep {
         for (SnakeSegment snake : snakeAsList) {
             gameBoard.drawShape(snake.getRect());
         }
+        // spawn the first food and print it
         spawnFood();
         gameBoard.drawShape(food);
     }
@@ -79,6 +80,8 @@ public class GameStep {
             spawnFood();
             // add a new "tail" at the position of the old one
             snakeAsList.add(new SnakeSegment(snakeTailX, snakeTailY));
+            // Print the new Snake segment
+            gameBoard.drawShape(snakeAsList.get(snakeAsList.size() - 1).getRect());
         }
 
 

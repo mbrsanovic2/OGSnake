@@ -2,6 +2,7 @@ package com.snake.model;
 
 import com.snake.controller.SnakeApplication;
 import com.snake.view.GameBoard;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 import java.util.LinkedList;
@@ -42,6 +43,7 @@ public class GameStep {
             gameBoard.drawShape(snake.getRect());
         }
         spawnFood();
+        gameBoard.drawShape(food);
     }
 
     /**
@@ -49,6 +51,10 @@ public class GameStep {
      * @return If the Game-Loop should be stopped
      */
     public boolean nextFrame(){
+        // save the position of the tail to add it if the food is eaten
+        int snakeTailX = (int) snakeAsList.get(snakeAsList.size() - 1).getXPos();
+        int snakeTailY = (int) snakeAsList.get(snakeAsList.size() - 1).getYPos();
+
         // set new values for last element depending on direction
         if (direction == 1 || direction == -1) {
             snakeAsList.get(snakeAsList.size() - 1).setXPos((int) (snakeAsList.get(0).getXPos() + (100 * direction)));
@@ -68,10 +74,13 @@ public class GameStep {
 
         currentDirection = direction;
 
-        // spawn food on another position if fruit is eaten
+        // spawn food on another position if food is eaten
         if (food.getX() == snakeAsList.get(0).getXPos() && food.getY() == snakeAsList.get(0).getYPos()){
             spawnFood();
+            // add a new "tail" at the position of the old one
+            snakeAsList.add(new SnakeSegment(snakeTailX, snakeTailY));
         }
+
 
         return checkIfOver();
     }
@@ -86,14 +95,13 @@ public class GameStep {
         return currentDirection;
     }
 
+    //spawn food at a random position and print it (9 and 6 for max size of the scene)
     public void spawnFood (){
-        //spawn food at a random position and print it
         food.setX(generateRandomPosition(9));
         food.setY(generateRandomPosition(6));
-        gameBoard.drawShape(food);
     }
 
-    // Create a Random object for food position (9 and 6 for max size of the scene)
+    // Create a Random object for food position
     public int generateRandomPosition (int bound){
         Random random = new Random();
         return random.nextInt(bound) * 100;

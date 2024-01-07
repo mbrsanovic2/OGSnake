@@ -102,6 +102,12 @@ public class GameStep {
     public void spawnFood (){
         food.setX(generateRandomPosition(9));
         food.setY(generateRandomPosition(6));
+        //Collision detection (spawn food again if it is in the same position as a snake segment
+        for (SnakeSegment snake : snakeAsList) {
+            if (food.getX() == snake.getXPos() && food.getY() == snake.getYPos()) {
+                spawnFood();
+            }
+        }
     }
 
     // Create a Random object for food position

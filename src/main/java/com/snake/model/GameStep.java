@@ -83,7 +83,12 @@ public class GameStep {
             // Print the new Snake segment
             gameBoard.drawShape(snakeAsList.get(snakeAsList.size() - 1).getRect());
         }
-
+        //Collision detection (if the snake head is in the same position as another snake segment then end the game)
+        for (int i = 1; i < snakeAsList.size() - 1; i++) {
+            if (snakeAsList.get(0).getXPos() == snakeAsList.get(i).getXPos() && snakeAsList.get(0).getYPos() == snakeAsList.get(i).getYPos()) {
+                System.out.println("Collision detected!!!");
+            }
+        }
 
         return checkIfOver();
     }
@@ -102,7 +107,7 @@ public class GameStep {
     public void spawnFood (){
         food.setX(generateRandomPosition(9));
         food.setY(generateRandomPosition(6));
-        //Collision detection (spawn food again if it is in the same position as a snake segment
+        //spawn food again if it is on the same position as a snake segment
         for (SnakeSegment snake : snakeAsList) {
             if (food.getX() == snake.getXPos() && food.getY() == snake.getYPos()) {
                 spawnFood();

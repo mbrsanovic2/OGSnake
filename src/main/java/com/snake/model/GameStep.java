@@ -14,8 +14,11 @@ import java.util.Random;
  * Class that defines the Logic of our Program, for example where to Draw the Snake/Fruit
  */
 public class GameStep {
-    private int direction;
-    private int currentDirection;
+    private int direction = 1;
+    private int currentDirection = 1;
+
+    final private Color headColor = Color.DARKGREEN;
+    final private Color bodyColor = Color.GREEN;
     private List<SnakeSegment> snakeAsList = new LinkedList<>();
 
     //Create a food rectangle
@@ -24,20 +27,20 @@ public class GameStep {
     // Reference to View for Drawing purposes
     private GameBoard gameBoard;
 
-    // todo: Collision Detection
-    // todo: FruitSpawn
+    // todo: Game Over
 
     /**
      * Constructor which defines our Snake at the Start, and sets our View
+     *
      * @param gameBoard Our View (Ding das Zeichnet)
      */
-    public GameStep(GameBoard gameBoard){
+    public GameStep(GameBoard gameBoard) {
 
         this.gameBoard = gameBoard;
         // initial Rectangle parameters v: X, v1: Y, v2: width, v3: height
-        snakeAsList.add((new SnakeSegment(300,200)));
-        snakeAsList.add((new SnakeSegment(200,200)));
-        snakeAsList.add((new SnakeSegment(100,200)));
+        snakeAsList.add((new SnakeSegment(300, 200, headColor)));
+        snakeAsList.add((new SnakeSegment(200, 200)));
+        snakeAsList.add((new SnakeSegment(100, 200)));
 
         for (SnakeSegment snake : snakeAsList) {
             gameBoard.drawShape(snake.getRect());
@@ -49,9 +52,10 @@ public class GameStep {
 
     /**
      * What should happen every Frame (ca. 400 ms)? This is defined in this Method
+     *
      * @return If the Game-Loop should be stopped
      */
-    public boolean nextFrame(){
+    public boolean nextFrame() {
         // save the position of the tail to add it if the food is eaten
         int snakeTailX = (int) snakeAsList.get(snakeAsList.size() - 1).getXPos();
         int snakeTailY = (int) snakeAsList.get(snakeAsList.size() - 1).getYPos();
@@ -67,8 +71,9 @@ public class GameStep {
 
         // add the last element as new element at the head of snake (first element)
         snakeAsList.add(0, snakeAsList.get(snakeAsList.size() - 1));
-
-        // todo: insert second case if fruit is eaten and snake gets longer
+        for (SnakeSegment s : snakeAsList)
+            s.setColor(bodyColor);
+        snakeAsList.get(0).setColor(headColor);
 
         // remove last element of snake
         snakeAsList.remove(snakeAsList.size() - 1);
@@ -76,7 +81,7 @@ public class GameStep {
         currentDirection = direction;
 
         // spawn food on another position if food is eaten
-        if (food.getX() == snakeAsList.get(0).getXPos() && food.getY() == snakeAsList.get(0).getYPos()){
+        if (food.getX() == snakeAsList.get(0).getXPos() && food.getY() == snakeAsList.get(0).getYPos()) {
             spawnFood();
             // add a new "tail" at the position of the old one
             snakeAsList.add(new SnakeSegment(snakeTailX, snakeTailY));
@@ -92,19 +97,22 @@ public class GameStep {
 
         return checkIfOver();
     }
+
     // todo: Checking if Game should be Over
-    public boolean checkIfOver(){
+    public boolean checkIfOver() {
         return false;
     }
+
     public void setDirection(int direction) {
         this.direction = direction;
     }
+
     public int getCurrentDirection() {
         return currentDirection;
     }
 
     //spawn food at a random position and print it (9 and 6 for max size of the scene)
-    public void spawnFood (){
+    public void spawnFood() {
         food.setX(generateRandomPosition(9));
         food.setY(generateRandomPosition(6));
         //spawn food again if it is on the same position as a snake segment
@@ -116,7 +124,7 @@ public class GameStep {
     }
 
     // Create a Random object for food position
-    public int generateRandomPosition (int bound){
+    public int generateRandomPosition(int bound) {
         Random random = new Random();
         return random.nextInt(bound) * 100;
     }

@@ -16,6 +16,7 @@ public class GameThread extends Thread {
     private int deltaTime;
 
     private GameBoard gameBoard;
+    private SnakeApplication snakeApplication;
     private GameStep gameStep;
 
     /**
@@ -24,10 +25,11 @@ public class GameThread extends Thread {
      * @param gameStep Our Logic (Defines what to Draw)
      * @param deltaTime How long for every Frame
      */
-    public GameThread(GameBoard gameBoard, GameStep gameStep, int deltaTime) {
+    public GameThread(GameBoard gameBoard, GameStep gameStep, SnakeApplication snakeApplication, int deltaTime) {
         this.gameBoard = gameBoard;
         this.gameStep = gameStep;
         this.deltaTime = deltaTime;
+        this.snakeApplication = snakeApplication;
     }
 
     /**
@@ -37,7 +39,7 @@ public class GameThread extends Thread {
     public void run() {
         // Game loop
         for (; ; ) {
-            gameStep.nextFrame();
+            if(gameStep.nextFrame()) break;
 
             /**
              * Nur fuer euch :)  (NICHT LOESCHEN!!!!!)
@@ -55,6 +57,12 @@ public class GameThread extends Thread {
                 throw new RuntimeException(e);
             }
         }
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        snakeApplication.switchToMainMenuScene();
     }
 
 

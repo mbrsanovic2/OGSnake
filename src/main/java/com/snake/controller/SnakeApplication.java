@@ -3,6 +3,7 @@ package com.snake.controller;
 import com.snake.model.GameStep;
 import com.snake.view.GameBoard;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
@@ -38,12 +39,13 @@ public class SnakeApplication extends Application {
         stage.show();
     }
 
-    private void switchToMainMenuScene() {
+    public void switchToMainMenuScene() {
         StackPane stackLayout = new StackPane();
         stackLayout.setBackground(new Background(getBackground()));
-
+        Platform.runLater(() -> {
+            stage.setScene(new Scene(stackLayout, 500, 400));
+        });
         // Replace current Scene with MainMenuScene
-        stage.setScene(new Scene(stackLayout, 500, 400));
 
         // Create Button and Text
         Button switchToGameplay = new Button("Play!");
@@ -56,7 +58,7 @@ public class SnakeApplication extends Application {
         switchToGameplay.setMinSize(120, 60);
 
         // Add Button functionality -> OnClick execute switchToGameplayScene()
-        switchToGameplay.setOnAction(e -> switchToGameplayScene());
+        switchToGameplay.setOnAction(execute -> switchToGameplayScene());
 
         // Add to Pane so that it is now in our Scene
         stackLayout.getChildren().addAll(text, switchToGameplay);
@@ -79,7 +81,7 @@ public class SnakeApplication extends Application {
         return background;
     }
 
-    private void switchToGameplayScene() {
+    public void switchToGameplayScene() {
         // Create a Canvas to Paint things on
         Pane canvas = new Pane();
         // Create the window with the specified size and canvas
@@ -106,7 +108,7 @@ public class SnakeApplication extends Application {
                 gameStep.setDirection(2);
             }
         });
-        GameThread thread = new GameThread(gameBoard, gameStep, 400);
+        GameThread thread = new GameThread(gameBoard, gameStep, this, 300);
         thread.start();
     }
 

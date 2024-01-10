@@ -4,6 +4,7 @@ import com.snake.controller.SnakeApplication;
 import com.snake.view.GameBoard;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -91,7 +92,8 @@ public class GameStep {
         //Collision detection (if the snake head is in the same position as another snake segment then end the game)
         for (int i = 1; i < snakeAsList.size() - 1; i++) {
             if (snakeAsList.get(0).getXPos() == snakeAsList.get(i).getXPos() && snakeAsList.get(0).getYPos() == snakeAsList.get(i).getYPos()) {
-                System.out.println("Collision detected!!!");
+                gameBoard.drawShape(new Text("Hello Test"));
+                return true;
             }
         }
 

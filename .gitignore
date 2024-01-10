@@ -40,3 +40,6 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+*.class
+target/classes/com/snake/demo/hello-view.fxml
+target/classes/snake.png

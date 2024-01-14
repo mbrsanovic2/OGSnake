@@ -89,13 +89,6 @@ public class GameStep {
             // Print the new Snake segment
             gameBoard.drawShape(snakeAsList.get(snakeAsList.size() - 1).getRect());
         }
-        //Collision detection (if the snake head is in the same position as another snake segment then end the game)
-        for (int i = 1; i < snakeAsList.size(); i++) {
-            if (snakeAsList.get(0).getXPos() == snakeAsList.get(i).getXPos() && snakeAsList.get(0).getYPos() == snakeAsList.get(i).getYPos()) {
-                gameBoard.drawShape(new Text("Hello Test"));
-                return true;
-            }
-        }
 
         return checkIfOver();
     }
@@ -104,6 +97,15 @@ public class GameStep {
     public boolean checkIfOver() {
         if (snakeAsList.get(0).getXPos() >= 900 | snakeAsList.get(0).getXPos() < 0) return true;
         else if (snakeAsList.get(0).getYPos() >= 600 | snakeAsList.get(0).getYPos() < 0) return true;
+
+        // Collision detection: Snake bites itself
+        // If the snake head is in the same position as another snake segment then end the game
+        for (int i = 1; i < snakeAsList.size(); i++) {
+            if (snakeAsList.get(0).getXPos() == snakeAsList.get(i).getXPos() && snakeAsList.get(0).getYPos() == snakeAsList.get(i).getYPos()) {
+                gameBoard.drawShape(new Text("Hello Test"));
+                return true;
+            }
+        }
         return false;
     }
 

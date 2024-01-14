@@ -44,6 +44,7 @@ public class SnakeApplication extends Application {
         stackLayout.setBackground(new Background(getBackground()));
         Platform.runLater(() -> {
             stage.setScene(new Scene(stackLayout, 500, 400));
+            stage.setResizable(false);
         });
         // Replace current Scene with MainMenuScene
 
@@ -84,9 +85,10 @@ public class SnakeApplication extends Application {
     public void switchToGameplayScene() {
         // Create a Canvas to Paint things on
         Pane canvas = new Pane();
-        // Create the window with the specified size and canvas
+        // Create the window with the specified size and canvas (not resizable)
         Scene scene = new Scene(canvas, 900, 600);
         stage.setScene(scene);
+        stage.setResizable(false);
         GameBoard gameBoard = new GameBoard(canvas);
         GameStep gameStep = new GameStep(gameBoard);
 

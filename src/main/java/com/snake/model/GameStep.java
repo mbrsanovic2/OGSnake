@@ -102,6 +102,8 @@ public class GameStep {
 
     // todo: Checking if Game should be Over
     public boolean checkIfOver() {
+        if (snakeAsList.get(0).getXPos() >= 900 | snakeAsList.get(0).getXPos() < 0) return true;
+        else if (snakeAsList.get(0).getYPos() >= 600 | snakeAsList.get(0).getYPos() < 0) return true;
         return false;
     }
 

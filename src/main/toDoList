@@ -11,7 +11,7 @@ CONTROLLER
 Extras
 D   Highscore
     Speed Adjustment
-    Borders
+C   Border collision detection - COMPLETED
     More gamemodes
-    Deactivate fullscreen/resize
+C   Deactivate fullscreen/resize - COMPLETED
     Differant Colors/Rainbow-snake

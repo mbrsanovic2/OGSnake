@@ -90,7 +90,7 @@ public class GameStep {
             gameBoard.drawShape(snakeAsList.get(snakeAsList.size() - 1).getRect());
         }
         //Collision detection (if the snake head is in the same position as another snake segment then end the game)
-        for (int i = 1; i < snakeAsList.size() - 1; i++) {
+        for (int i = 1; i < snakeAsList.size(); i++) {
             if (snakeAsList.get(0).getXPos() == snakeAsList.get(i).getXPos() && snakeAsList.get(0).getYPos() == snakeAsList.get(i).getYPos()) {
                 gameBoard.drawShape(new Text("Hello Test"));
                 return true;

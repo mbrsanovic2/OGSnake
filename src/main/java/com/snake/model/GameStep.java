@@ -105,7 +105,8 @@ public class GameStep {
         return false;
     }
 
-    public void setDirection(int direction) {
+    public void setDirection(int direction, Thread thread) {
+        if(this.direction != direction) thread.interrupt();
         this.direction = direction;
     }
 

@@ -95,20 +95,19 @@ public class SnakeApplication extends Application {
         double y = bounds.getMinY() + (bounds.getHeight() - scene.getHeight()) * 0.5;
         stage.setX(x);
         stage.setY(y);
-
+        GameThread thread = new GameThread(gameBoard, gameStep, this, 450);
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
             // assign direction to keyboard and prevent reverse movement
             if (key.getCode() == KeyCode.A && gameStep.getCurrentDirection() != 1) {
-                gameStep.setDirection(-1);
+                gameStep.setDirection(-1, thread);
             } else if (key.getCode() == KeyCode.D && gameStep.getCurrentDirection() != -1) {
-                gameStep.setDirection(1);
+                gameStep.setDirection(1, thread);
             } else if (key.getCode() == KeyCode.W && gameStep.getCurrentDirection() != 2) {
-                gameStep.setDirection(-2);
+                gameStep.setDirection(-2, thread);
             } else if (key.getCode() == KeyCode.S && gameStep.getCurrentDirection() != -2) {
-                gameStep.setDirection(2);
+                gameStep.setDirection(2, thread);
             }
         });
-        GameThread thread = new GameThread(gameBoard, gameStep, this, 300);
         thread.start();
     }
 

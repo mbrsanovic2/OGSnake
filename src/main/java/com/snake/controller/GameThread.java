@@ -39,6 +39,15 @@ public class GameThread extends Thread {
     public void run() {
         // Game loop
         for (; ; ) {
+            long startTime = System.currentTimeMillis();
+
+            try {
+                Thread.sleep(deltaTime);
+            } catch (InterruptedException ignored) {
+                long remainingTime = deltaTime - (System.currentTimeMillis() - startTime);
+                if(remainingTime > deltaTime * 0.85) continue;
+            }
+
             if(gameStep.nextFrame()) break;
 
             /**
@@ -50,17 +59,10 @@ public class GameThread extends Thread {
 
              rectangle2.setFill(new Color(Math.random(), Math.random(), Math.random(), 1));
              **/
-
-            try {
-                Thread.sleep(deltaTime);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
         }
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
         }
         snakeApplication.switchToMainMenuScene();
     }

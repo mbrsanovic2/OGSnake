@@ -10,6 +10,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.input.InputEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
@@ -24,6 +25,7 @@ import javafx.stage.Stage;
  */
 public class SnakeApplication extends Application {
     private Stage stage;
+
     /**
      * Our Pseudo Main Method generates all starter Objects and Sets them
      *
@@ -111,6 +113,33 @@ public class SnakeApplication extends Application {
             }
         });
         thread.start();
+    }
+
+    public void switchToGameOverScreen() {
+        StackPane stackLayout = new StackPane();
+        stackLayout.setBackground(new Background(getGameOverScreen()));
+
+        Scene scene = new Scene(stackLayout, 900, 600);
+
+        //Nicht auf dem Main Thread laufen
+        Platform.runLater(() -> {
+            stage.setScene(scene);
+            stage.setResizable(false);
+        });
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
+            switchToMainMenuScene();
+        });
+    }
+
+    private static BackgroundImage getGameOverScreen() {
+        Image backgroundImage = new Image("bluescreen_of_death.jpg");
+        BackgroundImage gameOver = new BackgroundImage(
+                backgroundImage,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.DEFAULT,
+                new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true));
+        return gameOver;
     }
 
     @Override

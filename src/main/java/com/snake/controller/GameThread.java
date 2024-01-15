@@ -64,7 +64,8 @@ public class GameThread extends Thread {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
         }
-        snakeApplication.switchToMainMenuScene();
+        //If game over switch to game over screen
+        snakeApplication.switchToGameOverScreen();
     }
 
 

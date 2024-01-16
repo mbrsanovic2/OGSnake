@@ -17,7 +17,6 @@ import java.util.Random;
 public class GameStep {
     private int direction = 1;
     private int currentDirection = 1;
-
     final private Color headColor = Color.DARKGREEN;
     final private Color bodyColor = Color.GREEN;
     private List<SnakeSegment> snakeAsList = new LinkedList<>();
@@ -38,15 +37,16 @@ public class GameStep {
     public GameStep(GameBoard gameBoard) {
 
         this.gameBoard = gameBoard;
-        // initial Rectangle parameters v: X, v1: Y, v2: width, v3: height
+        // Create 3 snake objects for basic snake at the beginning
         snakeAsList.add((new SnakeSegment(300, 200, headColor)));
         snakeAsList.add((new SnakeSegment(200, 200)));
         snakeAsList.add((new SnakeSegment(100, 200)));
 
+        // Draw basic snake on gameboard
         for (SnakeSegment snake : snakeAsList) {
             gameBoard.drawShape(snake.getRect());
         }
-        // spawn the first food and print it
+        // Spawn the first food and print it
         spawnFood();
         gameBoard.drawShape(food);
     }
@@ -57,11 +57,11 @@ public class GameStep {
      * @return If the Game-Loop should be stopped
      */
     public boolean nextFrame() {
-        // save the position of the tail to add it if the food is eaten
+        // Save the position of the tail to add it if the food is eaten
         int snakeTailX = (int) snakeAsList.get(snakeAsList.size() - 1).getXPos();
         int snakeTailY = (int) snakeAsList.get(snakeAsList.size() - 1).getYPos();
 
-        // set new values for last element depending on direction
+        // Set new values for last element depending on direction
         if (direction == 1 || direction == -1) {
             snakeAsList.get(snakeAsList.size() - 1).setXPos((int) (snakeAsList.get(0).getXPos() + (100 * direction)));
             snakeAsList.get(snakeAsList.size() - 1).setYPos((int) snakeAsList.get(0).getYPos());
@@ -70,21 +70,22 @@ public class GameStep {
             snakeAsList.get(snakeAsList.size() - 1).setYPos((int) (snakeAsList.get(0).getYPos() + (100 * direction / 2)));
         }
 
-        // add the last element as new element at the head of snake (first element)
+        // Add the last element as new element at the head of snake (first element)
         snakeAsList.add(0, snakeAsList.get(snakeAsList.size() - 1));
         for (SnakeSegment s : snakeAsList)
             s.setColor(bodyColor);
         snakeAsList.get(0).setColor(headColor);
 
-        // remove last element of snake
+        // Remove last element of snake
         snakeAsList.remove(snakeAsList.size() - 1);
 
+        // Save current direction for reverse check in SnakeApplication
         currentDirection = direction;
 
-        // spawn food on another position if food is eaten
+        // Spawn food on another position if food is eaten
         if (food.getX() == snakeAsList.get(0).getXPos() && food.getY() == snakeAsList.get(0).getYPos()) {
             spawnFood();
-            // add a new "tail" at the position of the old one
+            // Add a new "tail" at the position of the old one
             snakeAsList.add(new SnakeSegment(snakeTailX, snakeTailY));
             // Print the new Snake segment
             gameBoard.drawShape(snakeAsList.get(snakeAsList.size() - 1).getRect());
@@ -95,6 +96,8 @@ public class GameStep {
 
     // todo: Checking if Game should be Over
     public boolean checkIfOver() {
+        // Collision detection: Snake beyond borders
+        // If the direction is not changed at the borders and snake's head is outside border then end the game
         if (snakeAsList.get(0).getXPos() >= 900 | snakeAsList.get(0).getXPos() < 0) return true;
         else if (snakeAsList.get(0).getYPos() >= 600 | snakeAsList.get(0).getYPos() < 0) return true;
 
@@ -110,7 +113,7 @@ public class GameStep {
     }
 
     public void setDirection(int direction, Thread thread) {
-        if(this.direction != direction) thread.interrupt();
+        if (this.direction != direction) thread.interrupt();
         this.direction = direction;
     }
 
@@ -118,7 +121,7 @@ public class GameStep {
         return currentDirection;
     }
 
-    //spawn food at a random position and print it (9 and 6 for max size of the scene)
+    // Spawn food at a random position and print it (9 and 6 for max size of the scene)
     public void spawnFood() {
         food.setX(generateRandomPosition(9));
         food.setY(generateRandomPosition(6));

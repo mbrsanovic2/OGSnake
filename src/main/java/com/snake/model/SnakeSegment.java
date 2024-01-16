@@ -8,7 +8,7 @@ import javafx.scene.shape.Rectangle;
  * Simplification of the Rectangle, with only functions we need
  */
 public class SnakeSegment{
-    Rectangle snakeBody=new Rectangle(100,100, 100, 100);
+    Rectangle snakeBody=new Rectangle(50,50, 50, 50);
 
     /**
      * <pre>

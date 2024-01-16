@@ -1,5 +1,6 @@
 package com.snake.model;
 
+import com.snake.controller.GameThread;
 import com.snake.controller.SnakeApplication;
 import com.snake.view.GameBoard;
 import javafx.scene.paint.Color;
@@ -17,13 +18,14 @@ import java.util.Random;
 public class GameStep {
     private int direction = 1;
     private int currentDirection = 1;
+    private int gameSpeed = 0;
 
     final private Color headColor = Color.DARKGREEN;
     final private Color bodyColor = Color.GREEN;
     private List<SnakeSegment> snakeAsList = new LinkedList<>();
 
     //Create a food rectangle
-    private Rectangle food = new Rectangle(0, 0, 100, 100);
+    private Rectangle food = new Rectangle(0, 0, 50, 50);
 
     // Reference to View for Drawing purposes
     private GameBoard gameBoard;
@@ -39,9 +41,9 @@ public class GameStep {
 
         this.gameBoard = gameBoard;
         // initial Rectangle parameters v: X, v1: Y, v2: width, v3: height
-        snakeAsList.add((new SnakeSegment(300, 200, headColor)));
-        snakeAsList.add((new SnakeSegment(200, 200)));
+        snakeAsList.add((new SnakeSegment(150, 200, headColor)));
         snakeAsList.add((new SnakeSegment(100, 200)));
+        snakeAsList.add((new SnakeSegment(50, 200)));
 
         for (SnakeSegment snake : snakeAsList) {
             gameBoard.drawShape(snake.getRect());
@@ -57,17 +59,19 @@ public class GameStep {
      * @return If the Game-Loop should be stopped
      */
     public boolean nextFrame() {
+        //set the game speed value back to 0 so that the snake doesn´t speed up in every frame but only when a meal is eaten
+        gameSpeed = 0;
         // save the position of the tail to add it if the food is eaten
         int snakeTailX = (int) snakeAsList.get(snakeAsList.size() - 1).getXPos();
         int snakeTailY = (int) snakeAsList.get(snakeAsList.size() - 1).getYPos();
 
         // set new values for last element depending on direction
         if (direction == 1 || direction == -1) {
-            snakeAsList.get(snakeAsList.size() - 1).setXPos((int) (snakeAsList.get(0).getXPos() + (100 * direction)));
+            snakeAsList.get(snakeAsList.size() - 1).setXPos((int) (snakeAsList.get(0).getXPos() + (50 * direction)));
             snakeAsList.get(snakeAsList.size() - 1).setYPos((int) snakeAsList.get(0).getYPos());
         } else if (direction == 2 || direction == -2) {
             snakeAsList.get(snakeAsList.size() - 1).setXPos((int) snakeAsList.get(0).getXPos());
-            snakeAsList.get(snakeAsList.size() - 1).setYPos((int) (snakeAsList.get(0).getYPos() + (100 * direction / 2)));
+            snakeAsList.get(snakeAsList.size() - 1).setYPos((int) (snakeAsList.get(0).getYPos() + (50 * direction / 2)));
         }
 
         // add the last element as new element at the head of snake (first element)
@@ -128,6 +132,8 @@ public class GameStep {
                 spawnFood();
             }
         }
+        //increase the snake speed (frame rate) with every meal eaten
+        gameSpeed += 5;
     }
 
     // Create a Random object for food position
@@ -136,5 +142,7 @@ public class GameStep {
         return random.nextInt(bound) * 100;
     }
 
-
+    public int getGameSpeed() {
+        return gameSpeed;
+    }
 }

@@ -10,7 +10,6 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import javafx.scene.input.InputEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
@@ -115,6 +114,7 @@ public class SnakeApplication extends Application {
         thread.start();
     }
 
+    //Create the Game Over screen
     public void switchToGameOverScreen() {
         StackPane stackLayout = new StackPane();
         stackLayout.setBackground(new Background(getGameOverScreen()));

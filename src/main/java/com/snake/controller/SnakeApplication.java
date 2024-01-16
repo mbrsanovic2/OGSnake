@@ -2,6 +2,9 @@ package com.snake.controller;
 
 import com.snake.model.GameStep;
 import com.snake.view.GameBoard;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -10,6 +13,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
@@ -18,6 +22,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /**
  * Defines the basic Things we need at the Start of our Application (View, Model, Controller)
@@ -117,7 +122,18 @@ public class SnakeApplication extends Application {
     //Create the Game Over screen
     public void switchToGameOverScreen() {
         StackPane stackLayout = new StackPane();
+        Image textureImage = new Image("wolke_meow.png");
+
+        // Create an ImageView to display the image
+        ImageView imageView = new ImageView(textureImage);
+
         stackLayout.setBackground(new Background(getGameOverScreen()));
+
+
+        stackLayout.getChildren().add(imageView);
+        StackPane.setAlignment(imageView, Pos.BOTTOM_RIGHT);
+        imageView.setTranslateX(55);
+        imageView.setTranslateY(55);
 
         Scene scene = new Scene(stackLayout, 900, 600);
 
@@ -126,9 +142,22 @@ public class SnakeApplication extends Application {
             stage.setScene(scene);
             stage.setResizable(false);
         });
+
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
             switchToMainMenuScene();
         });
+
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(10), imageView);
+
+        // Set the end position for the animation
+        translateTransition.setToX(-1);
+        translateTransition.setToY(-1);
+
+        // Set the cycle count to indefinite for continuous animation
+        translateTransition.setCycleCount(1);
+
+        // Play the animation
+        translateTransition.play();
     }
 
     private static BackgroundImage getGameOverScreen() {

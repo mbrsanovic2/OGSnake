@@ -47,9 +47,11 @@ public class GameThread extends Thread {
                 long remainingTime = deltaTime - (System.currentTimeMillis() - startTime);
                 if(remainingTime > deltaTime * 0.85) continue;
             }
-            //Increase the speed of the snake with every food that is eaten
-            deltaTime = deltaTime - gameStep.getGameSpeed();
-
+            //Set the maximum speed of the snake
+            if(deltaTime > 100) {
+                //Increase the speed of the snake with every food that is eaten
+                deltaTime = deltaTime - gameStep.getGameSpeed();
+            }
             if(gameStep.nextFrame()) break;
 
             /**

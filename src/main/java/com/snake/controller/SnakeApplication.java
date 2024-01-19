@@ -24,6 +24,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -33,12 +35,17 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.File;
+
 /**
  * Defines the basic Things we need at the Start of our Application (View, Model, Controller)
  */
 public class SnakeApplication extends Application {
     private Stage stage;
     private GameStep.snakeColor_E startColor= GameStep.snakeColor_E.green;
+
+    private static final String PATH_SOUND_NEW_HIGHSCORE = "src/main/resources/sound_new_highscore.mp3";
+    private static final String PATH_SOUND_GAME_OVER = "src/main/resources/sound_game_over.mp3";
 
     /**
      * Our Pseudo Main Method generates all starter Objects and Sets them
@@ -212,7 +219,12 @@ public class SnakeApplication extends Application {
     }
 
     //Create the Game Over screen
-    public void switchToGameOverScreen(int score) {
+    public void switchToGameOverScreen(int score, int highscore) {
+        if (score > highscore)
+            playNewHighscoreSound();
+        else
+            playGameOverSound();
+
         StackPane stackLayout = new StackPane();
         Image textureImage = new Image("wolke_meow.png");
 
@@ -220,6 +232,17 @@ public class SnakeApplication extends Application {
         ImageView imageView = new ImageView(textureImage);
 
         stackLayout.setBackground(new Background(getGameOverScreen()));
+
+        // Create a text to display the highscore
+        Text highscoreText = new Text("Highscore: " + highscore);
+        highscoreText.setFont(Font.font("Arial", 20));
+        highscoreText.setFill(Color.WHITE);
+        highscoreText.setTextAlignment(TextAlignment.CENTER);
+
+        stackLayout.getChildren().add(highscoreText);
+
+        highscoreText.setTranslateY(200);
+
 
         // Create a text to display the score
         Text scoreText = new Text("Your score: " + score);
@@ -229,7 +252,7 @@ public class SnakeApplication extends Application {
 
         stackLayout.getChildren().add(scoreText);
 
-        scoreText.setTranslateY(200);
+        scoreText.setTranslateY(250);
 
 
         stackLayout.getChildren().add(imageView);
@@ -280,4 +303,26 @@ public class SnakeApplication extends Application {
     public static void main(String[] args) {
         launch();
     }
+
+    public void playGameOverSound()
+    {
+        Media sound = new Media(new File(PATH_SOUND_GAME_OVER).toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(sound);
+
+        mediaPlayer.setOnEndOfMedia(mediaPlayer::stop);
+
+        mediaPlayer.play();
+    }
+
+    public void playNewHighscoreSound()
+    {
+        Media sound = new Media(new File(PATH_SOUND_NEW_HIGHSCORE).toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(sound);
+
+        mediaPlayer.setOnEndOfMedia(mediaPlayer::stop);
+
+        mediaPlayer.play();
+    }
+
+
 }

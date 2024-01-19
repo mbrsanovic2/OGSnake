@@ -5,7 +5,9 @@ import com.snake.view.GameBoard;
 import javafx.application.Platform;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.media.MediaPlayer;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +20,7 @@ public class GameThread extends Thread {
     private GameBoard gameBoard;
     private SnakeApplication snakeApplication;
     private GameStep gameStep;
+    private static final String HIGHSCORE_FILE_PATH = "src/main/resources/highscore.txt";
 
     /**
      * Constructor For our Game Thread
@@ -77,10 +80,41 @@ public class GameThread extends Thread {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
         }
+
+        // Load highscore
+        int highscore = loadHighScore();
+
         //If game over switch to game over screen
-        snakeApplication.switchToGameOverScreen(gameStep.getScore());
+        snakeApplication.switchToGameOverScreen(gameStep.getScore(), highscore);
+
+        // Current score is higher than the highscore, save the new highscore
+        if (gameStep.getScore() > highscore)
+        {
+            highscore = gameStep.getScore();
+            saveHighscore(gameStep.getScore());
+        }
     }
 
+    private int loadHighScore() {
+        try (BufferedReader reader = new BufferedReader(new FileReader(HIGHSCORE_FILE_PATH))) {
+            String line = reader.readLine();
+            if (line != null && !line.isEmpty()) {
+                return Integer.parseInt(line.trim());
+            }
+        } catch (IOException | NumberFormatException e) {
+            // file not found, thats ok
+        }
+        return 0;
+    }
+
+
+    private void saveHighscore(int highscore) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(HIGHSCORE_FILE_PATH))) {
+            writer.write(String.valueOf(highscore));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void setDeltaTime(int deltaTime) {
         this.deltaTime = deltaTime;

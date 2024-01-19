@@ -3,10 +3,13 @@ package com.snake.model;
 import com.snake.controller.GameThread;
 import com.snake.controller.SnakeApplication;
 import com.snake.view.GameBoard;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
+import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -33,6 +36,9 @@ public class GameStep {
     // Reference to View for Drawing purposes
     private GameBoard gameBoard;
 
+    private static final String PATH_SOUND_EAT_FOOD = "src/main/resources/sound_eat_food.mp3";
+    MediaPlayer mediaPlayer;
+
     // todo: Game Over
 
     /**
@@ -56,6 +62,12 @@ public class GameStep {
         // spawn the first food and print it
         spawnFood();
         gameBoard.drawShape(food);
+
+
+        // media player for eat food sound
+        Media sound = new Media(new File(PATH_SOUND_EAT_FOOD).toURI().toString());
+        mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.setOnEndOfMedia(() -> mediaPlayer.stop());
     }
 
     /**
@@ -92,7 +104,10 @@ public class GameStep {
 
         // spawn food on another position if food is eaten
         if (food.getX() == snakeAsList.get(0).getXPos() && food.getY() == snakeAsList.get(0).getYPos()) {
+            // Play eat food sound and spawn new food
+            playSoundEatFood();
             spawnFood();
+
             // add a new "tail" at the position of the old one
             snakeAsList.add(new SnakeSegment(snakeTailX, snakeTailY, bodyColor));
             // Print the new Snake segment
@@ -208,5 +223,10 @@ public class GameStep {
 
     public int getScore(){
         return score;
+    }
+
+    public void playSoundEatFood()
+    {
+        mediaPlayer.play();
     }
 }

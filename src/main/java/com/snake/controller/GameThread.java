@@ -41,12 +41,20 @@ public class GameThread extends Thread {
         // Game loop
         for (; ; ) {
             long startTime = System.currentTimeMillis();
-
+            // Let each thread wait for specific deltaTime (in millisec) before the next starts
             try {
                 Thread.sleep(deltaTime);
             } catch (InterruptedException ignored) {
+                // If the thread is interrupted while sleeping, put it back to sleep
                 long remainingTime = deltaTime - (System.currentTimeMillis() - startTime);
-                if (remainingTime > deltaTime * 0.85) continue;
+                //if (remainingTime > deltaTime * 0.85) continue;
+                if (remainingTime > 0) {
+                    try {
+                        Thread.sleep(remainingTime / 2);
+                    } catch (InterruptedException interrupt) {
+                        continue;
+                    }
+                }
             }
             //Set the maximum speed of the snake
             if (deltaTime > 100) {

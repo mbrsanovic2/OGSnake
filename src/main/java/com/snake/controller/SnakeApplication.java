@@ -104,8 +104,7 @@ public class SnakeApplication extends Application {
         stage.setX(x);
         stage.setY(y);
 
-        int deltaTime = 450;
-        GameThread thread = new GameThread(gameBoard, gameStep, this, deltaTime);
+        GameThread thread = new GameThread(gameBoard, gameStep, this, 375);
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
             // Assign direction to keyboard (W,A,S,D keys) and prevent reverse movement
             if (key.getCode() == KeyCode.A && gameStep.getCurrentDirection() != 1) {

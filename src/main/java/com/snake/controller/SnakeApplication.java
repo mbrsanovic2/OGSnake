@@ -28,6 +28,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -211,7 +212,7 @@ public class SnakeApplication extends Application {
     }
 
     //Create the Game Over screen
-    public void switchToGameOverScreen() {
+    public void switchToGameOverScreen(int score) {
         StackPane stackLayout = new StackPane();
         Image textureImage = new Image("wolke_meow.png");
 
@@ -219,6 +220,16 @@ public class SnakeApplication extends Application {
         ImageView imageView = new ImageView(textureImage);
 
         stackLayout.setBackground(new Background(getGameOverScreen()));
+
+        // Create a text to display the score
+        Text scoreText = new Text("Your score: " + score);
+        scoreText.setFont(Font.font("Arial", 20));
+        scoreText.setFill(Color.WHITE);
+        scoreText.setTextAlignment(TextAlignment.CENTER);
+
+        stackLayout.getChildren().add(scoreText);
+
+        scoreText.setTranslateY(200);
 
 
         stackLayout.getChildren().add(imageView);
@@ -263,8 +274,7 @@ public class SnakeApplication extends Application {
     }
 
     @Override
-    public void stop() {
-        System.exit(0);
+    public void stop() {System.exit(0);
     }
 
     public static void main(String[] args) {

@@ -19,6 +19,7 @@ public class GameStep {
     private int direction = 1;
     private int currentDirection = 1;
     private int gameSpeed = 0;
+    private int score = 0;
 
     //enum for the color pattern & start color
     private snakeColor_E color_e;
@@ -96,6 +97,8 @@ public class GameStep {
             snakeAsList.add(new SnakeSegment(snakeTailX, snakeTailY, bodyColor));
             // Print the new Snake segment
             gameBoard.drawShape(snakeAsList.get(snakeAsList.size() - 1).getRect());
+            // Increment score by 1
+            incrementScore();
         }
 
         return checkIfOver();
@@ -196,5 +199,14 @@ public class GameStep {
         yellow,
         black,
         grey
+    }
+
+    public void incrementScore()
+    {
+        score++;
+    }
+
+    public int getScore(){
+        return score;
     }
 }

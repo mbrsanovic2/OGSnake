@@ -78,7 +78,7 @@ public class GameThread extends Thread {
         } catch (InterruptedException e) {
         }
         //If game over switch to game over screen
-        snakeApplication.switchToGameOverScreen();
+        snakeApplication.switchToGameOverScreen(gameStep.getScore());
     }
 
 

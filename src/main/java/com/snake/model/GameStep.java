@@ -20,8 +20,10 @@ public class GameStep {
     private int currentDirection = 1;
     private int gameSpeed = 0;
 
-    final private Color headColor = Color.DARKGREEN;
-    final private Color bodyColor = Color.GREEN;
+    //enum for the color pattern & start color
+    private snakeColor_E color_e;
+    private Color bodyColor;
+
     private List<SnakeSegment> snakeAsList = new LinkedList<>();
 
     //Create a food rectangle
@@ -37,13 +39,15 @@ public class GameStep {
      *
      * @param gameBoard Our View (Ding das Zeichnet)
      */
-    public GameStep(GameBoard gameBoard) {
+    public GameStep(GameBoard gameBoard, snakeColor_E color_e) {
 
+        this.color_e=color_e;
+        bodyColor=getColor(color_e);
         this.gameBoard = gameBoard;
         // initial Rectangle parameters v: X, v1: Y, v2: width, v3: height
-        snakeAsList.add((new SnakeSegment(150, 200, headColor)));
-        snakeAsList.add((new SnakeSegment(100, 200)));
-        snakeAsList.add((new SnakeSegment(50, 200)));
+        snakeAsList.add((new SnakeSegment(150, 200, bodyColor.darker())));
+        snakeAsList.add((new SnakeSegment(100, 200, bodyColor)));
+        snakeAsList.add((new SnakeSegment(50, 200, bodyColor)));
 
         for (SnakeSegment snake : snakeAsList) {
             gameBoard.drawShape(snake.getRect());
@@ -76,9 +80,9 @@ public class GameStep {
 
         // add the last element as new element at the head of snake (first element)
         snakeAsList.add(0, snakeAsList.get(snakeAsList.size() - 1));
-        for (SnakeSegment s : snakeAsList)
-            s.setColor(bodyColor);
-        snakeAsList.get(0).setColor(headColor);
+
+        //set color of snake, needed to make headColor correct
+        changeColor(getColor(color_e));
 
         // remove last element of snake
         snakeAsList.remove(snakeAsList.size() - 1);
@@ -89,12 +93,46 @@ public class GameStep {
         if (food.getX() == snakeAsList.get(0).getXPos() && food.getY() == snakeAsList.get(0).getYPos()) {
             spawnFood();
             // add a new "tail" at the position of the old one
-            snakeAsList.add(new SnakeSegment(snakeTailX, snakeTailY));
+            snakeAsList.add(new SnakeSegment(snakeTailX, snakeTailY, bodyColor));
             // Print the new Snake segment
             gameBoard.drawShape(snakeAsList.get(snakeAsList.size() - 1).getRect());
         }
 
         return checkIfOver();
+    }
+
+    //Returns Color based on Enum
+    private Color getColor(snakeColor_E snakeColor_e){
+        switch (color_e){
+            case green -> {
+                return Color.GREEN;
+            }
+            case red -> {
+                return Color.RED;
+            }
+            case blue -> {
+                return (Color.BLUE);
+            }
+            case black -> {
+                return (Color.BLACK);
+            }
+            case grey -> {
+                return (Color.GRAY);
+            }
+            case yellow -> {
+                return (Color.YELLOW);
+            }
+            default -> {
+                return Color.GREEN;
+            }
+        }
+    }
+
+    //changes the color of the entire snake and makes the head darker
+    private void changeColor(Color color){
+        for (SnakeSegment s : snakeAsList)
+            s.setColor(color);
+        snakeAsList.get(0).setColor(color.darker());
     }
 
     // todo: Checking if Game should be Over
@@ -144,5 +182,17 @@ public class GameStep {
 
     public int getGameSpeed() {
         return gameSpeed;
+    }
+
+    //Enum for Color-pattern
+    public enum snakeColor_E{
+        green,
+        red,
+        blue,
+        rainbow,
+        rainbowSegments,
+        yellow,
+        black,
+        grey
     }
 }

@@ -57,10 +57,15 @@ public class SnakeApplication extends Application {
     public void switchToMainMenuScene() {
         StackPane stackLayout = new StackPane();
         stackLayout.setBackground(new Background(getBackground()));
-        Platform.runLater(() -> {
-            stage.setScene(new Scene(stackLayout, 500, 400));
-            stage.setResizable(false);
-        });
+        Scene scene = new Scene(stackLayout, 900, 600);
+
+        // Set the position of all the Windows to the center
+        Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
+        double x = bounds.getMinX() + (bounds.getWidth() - scene.getWidth()) * 0.5;
+        double y = bounds.getMinY() + (bounds.getHeight() - scene.getHeight()) * 0.5;
+        stage.setX(x);
+        stage.setY(y);
+
         // Replace current Scene with MainMenuScene
 
         // Create Button and Text
@@ -91,16 +96,17 @@ public class SnakeApplication extends Application {
         StackPane.setMargin(text, new Insets(22));
         StackPane.setMargin(switchToGameplay, new Insets(90));
         StackPane.setMargin(switchToOptions, new Insets(160));
+
+        //Set the created scene to the stage
+        stage.setScene(scene);
+        stage.setResizable(false);
     }
 
     //Creates 6 ColorOption-Buttons to switch the color of the snake
     public void switchToOptionsScene(){
         StackPane stackLayout = new StackPane();
         stackLayout.setBackground(new Background(getBackground()));
-        Platform.runLater(() -> {
-            stage.setScene(new Scene(stackLayout, 500, 400));
-            stage.setResizable(false);
-        });
+        Scene scene = new Scene(stackLayout, 900, 600);
 
         Button backButton = new Button("Back");
         backButton.setStyle("-fx-background-color: #3498db;");
@@ -160,6 +166,9 @@ public class SnakeApplication extends Application {
         selectYellow.setOnAction(execute->startColor= GameStep.snakeColor_E.yellow);
 
         stackLayout.getChildren().addAll(backButton,selectGreen,selectBlack,selectBlue,selectGrey,selectRed,selectYellow);
+
+        stage.setScene(scene);
+        stage.setResizable(false);
     }
 
     private static BackgroundImage getBackground() {
@@ -184,12 +193,6 @@ public class SnakeApplication extends Application {
         stage.setResizable(false);
         GameBoard gameBoard = new GameBoard(canvas);
         GameStep gameStep = new GameStep(gameBoard, startColor);
-
-        Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
-        double x = bounds.getMinX() + (bounds.getWidth() - scene.getWidth()) * 0.55;
-        double y = bounds.getMinY() + (bounds.getHeight() - scene.getHeight()) * 0.5;
-        stage.setX(x);
-        stage.setY(y);
 
         GameThread thread = new GameThread(gameBoard, gameStep, this, 375);
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {

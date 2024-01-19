@@ -21,8 +21,9 @@ public class GameThread extends Thread {
 
     /**
      * Constructor For our Game Thread
+     *
      * @param gameBoard Our View (Draws Things on the Canvas)
-     * @param gameStep Our Logic (Defines what to Draw)
+     * @param gameStep  Our Logic (Defines what to Draw)
      * @param deltaTime How long for every Frame
      */
     public GameThread(GameBoard gameBoard, GameStep gameStep, SnakeApplication snakeApplication, int deltaTime) {
@@ -45,14 +46,14 @@ public class GameThread extends Thread {
                 Thread.sleep(deltaTime);
             } catch (InterruptedException ignored) {
                 long remainingTime = deltaTime - (System.currentTimeMillis() - startTime);
-                if(remainingTime > deltaTime * 0.85) continue;
+                if (remainingTime > deltaTime * 0.85) continue;
             }
             //Set the maximum speed of the snake
-            if(deltaTime > 100) {
+            if (deltaTime > 100) {
                 //Increase the speed of the snake with every food that is eaten
                 deltaTime = deltaTime - gameStep.getGameSpeed();
             }
-            if(gameStep.nextFrame()) break;
+            if (gameStep.nextFrame()) break;
 
             /**
              * Nur fuer euch :)  (NICHT LOESCHEN!!!!!)

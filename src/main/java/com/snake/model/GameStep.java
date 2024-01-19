@@ -40,7 +40,7 @@ public class GameStep {
     public GameStep(GameBoard gameBoard) {
 
         this.gameBoard = gameBoard;
-        // initial Rectangle parameters v: X, v1: Y, v2: width, v3: height
+        // Create 3 snake objects for basic snake at the beginning
         snakeAsList.add((new SnakeSegment(150, 200, headColor)));
         snakeAsList.add((new SnakeSegment(100, 200)));
         snakeAsList.add((new SnakeSegment(50, 200)));
@@ -99,6 +99,8 @@ public class GameStep {
 
     // todo: Checking if Game should be Over
     public boolean checkIfOver() {
+        // Collision detection: Snake beyond borders
+        // If the direction is not changed at the borders and snake's head is outside border then end the game
         if (snakeAsList.get(0).getXPos() >= 900 | snakeAsList.get(0).getXPos() < 0) return true;
         else if (snakeAsList.get(0).getYPos() >= 600 | snakeAsList.get(0).getYPos() < 0) return true;
 
@@ -114,7 +116,7 @@ public class GameStep {
     }
 
     public void setDirection(int direction, Thread thread) {
-        if(this.direction != direction) thread.interrupt();
+        if (this.direction != direction) thread.interrupt();
         this.direction = direction;
     }
 

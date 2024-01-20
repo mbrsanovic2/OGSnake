@@ -1,6 +1,5 @@
 package com.snake.model;
 
-import com.snake.controller.GameThread;
 import com.snake.controller.SnakeApplication;
 import com.snake.view.GameBoard;
 import javafx.scene.media.Media;
@@ -24,7 +23,8 @@ public class GameStep {
     private int gameSpeed = 0;
     private int screenWidth;
     private int screenHeight;
-    private SnakeSegment tail, head;
+    private SnakeSegment head, tail;
+    private int snakeTailX, snakeTailY;
     private int score = 0;
 
     //enum for the color pattern & start color
@@ -80,22 +80,23 @@ public class GameStep {
      */
     public boolean nextFrame() {
         // Save values for head and tail of snake
-        tail = snakeAsList.get(0);
-        head = snakeAsList.get(snakeAsList.size() - 1);
+        savePosition();
         //set the game speed value back to 0 so that the snake doesn´t speed up in every frame but only when a meal is eaten
         gameSpeed = 0;
         // save the position of the tail to add it if the food is eaten
-        int snakeTailX = (int) snakeAsList.get(snakeAsList.size() - 1).getXPos();
-        int snakeTailY = (int) snakeAsList.get(snakeAsList.size() - 1).getYPos();
+        int snakeTailX = (int) tail.getXPos();
+        int snakeTailY = (int) tail.getYPos();
 
         movementUpdate();
 
-        // spawn food on another position if food is eaten
-        if (food.getX() == snakeAsList.get(0).getXPos() && food.getY() == snakeAsList.get(0).getYPos()) {
+        // Save new values for head and tail of snake after movement
+        savePosition();
+
+        // spawn food on another position if food is eaten and make snake larger
+        if (food.getX() == head.getXPos() && food.getY() == head.getYPos()) {
             // Play eat food sound and spawn new food
             playSoundEatFood();
             spawnFood();
-
             // add a new "tail" at the position of the old one
             snakeAsList.add(new SnakeSegment(snakeTailX, snakeTailY, bodyColor));
             // Print the new Snake segment
@@ -103,6 +104,9 @@ public class GameStep {
             // Increment score by 1
             incrementScore();
         }
+
+        // Save new values for head and tail of snake after eating
+        savePosition();
 
         return checkIfOver();
     }
@@ -141,7 +145,6 @@ public class GameStep {
         snakeAsList.get(0).setColor(color.darker());
     }
 
-    // todo: Checking if Game should be Over
     public boolean checkIfOver() {
         // Collision detection: Snake beyond borders
         // If the direction is not changed at the borders and snake's head is outside border then end the game
@@ -151,26 +154,30 @@ public class GameStep {
         // Collision detection: Snake bites itself
         // If the snake head is in the same position as another snake segment then end the game
         for (int i = 1; i < snakeAsList.size(); i++) {
-            if (snakeAsList.get(0).getXPos() == snakeAsList.get(i).getXPos() && snakeAsList.get(0).getYPos() == snakeAsList.get(i).getYPos()) {
-                gameBoard.drawShape(new Text("Hello Test"));
+            if (head.getXPos() == snakeAsList.get(i).getXPos() && head.getYPos() == snakeAsList.get(i).getYPos()) {
                 return true;
             }
         }
         return false;
     }
 
+    public void savePosition() {
+        head = snakeAsList.get(0);
+        tail = snakeAsList.get(snakeAsList.size() - 1);
+    }
+
     public void movementUpdate() {
         // set new values for last element depending on direction
         if (direction == SnakeApplication.RIGHT || direction == SnakeApplication.LEFT) {
-            head.setXPos(tail.getXPos() + (50 * direction));
-            head.setYPos(tail.getYPos());
+            tail.setXPos(head.getXPos() + (50 * direction));
+            tail.setYPos(head.getYPos());
         } else if (direction == SnakeApplication.DOWN || direction == SnakeApplication.UP) {
-            head.setXPos(tail.getXPos());
-            head.setYPos(tail.getYPos() + ((double) (50 * direction) / 2));
+            tail.setXPos(head.getXPos());
+            tail.setYPos(head.getYPos() + ((double) (50 * direction) / 2));
         }
 
         // add the last element as new element at the head of snake (first element)
-        snakeAsList.add(0, head);
+        snakeAsList.add(0, tail);
 
         //set color of snake, needed to make headColor correct
         changeColor(getColor(color_e));

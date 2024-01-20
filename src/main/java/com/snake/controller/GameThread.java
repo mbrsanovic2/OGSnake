@@ -50,13 +50,10 @@ public class GameThread extends Thread {
             } catch (InterruptedException ignored) {
                 // If the thread is interrupted while sleeping, put it back to sleep
                 long remainingTime = deltaTime - (System.currentTimeMillis() - startTime);
-                //if (remainingTime > deltaTime * 0.85) continue;
-                if (remainingTime > 0) {
-                    try {
-                        Thread.sleep(remainingTime / 2);
-                    } catch (InterruptedException interrupt) {
-                        continue;
-                    }
+
+                try {
+                    Thread.sleep(remainingTime / 2);
+                } catch (InterruptedException interrupt) {
                 }
             }
             //Set the maximum speed of the snake

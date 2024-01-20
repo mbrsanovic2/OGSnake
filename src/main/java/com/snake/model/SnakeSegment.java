@@ -61,15 +61,15 @@ public class SnakeSegment {
         snakeBody.setFill(snakeColor);
     }
 
-    public void setXPos(int pos) {
+    public void setXPos(double pos) {
         snakeBody.setX(pos);
     }
 
-    public void setYPos(int pos) {
+    public void setYPos(double pos) {
         snakeBody.setY(pos);
     }
 
-    public void setXYPos(int xPos, int yPos) {
+    public void setXYPos(double xPos, double yPos) {
         snakeBody.setX(xPos);
         snakeBody.setY(yPos);
     }

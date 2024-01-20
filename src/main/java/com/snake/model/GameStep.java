@@ -22,6 +22,9 @@ public class GameStep {
     private int direction = 1;
     private int currentDirection = 1;
     private int gameSpeed = 0;
+    private int screenWidth;
+    private int screenHeight;
+    private SnakeSegment tail, head;
     private int score = 0;
 
     //enum for the color pattern & start color
@@ -39,18 +42,18 @@ public class GameStep {
     private static final String PATH_SOUND_EAT_FOOD = "src/main/resources/sound_eat_food.mp3";
     MediaPlayer mediaPlayer;
 
-    // todo: Game Over
-
     /**
      * Constructor which defines our Snake at the Start, and sets our View
      *
      * @param gameBoard Our View (Ding das Zeichnet)
      */
-    public GameStep(GameBoard gameBoard, snakeColor_E color_e) {
+    public GameStep(GameBoard gameBoard, int screenWidth, int screenHeight, snakeColor_E color_e) {
 
         this.color_e=color_e;
         bodyColor=getColor(color_e);
         this.gameBoard = gameBoard;
+        this.screenWidth = screenWidth;
+        this.screenHeight = screenHeight;
         // Create 3 snake objects for basic snake at the beginning
         snakeAsList.add((new SnakeSegment(150, 200, bodyColor.darker())));
         snakeAsList.add((new SnakeSegment(100, 200, bodyColor)));
@@ -76,31 +79,16 @@ public class GameStep {
      * @return If the Game-Loop should be stopped
      */
     public boolean nextFrame() {
+        // Save values for head and tail of snake
+        tail = snakeAsList.get(0);
+        head = snakeAsList.get(snakeAsList.size() - 1);
         //set the game speed value back to 0 so that the snake doesn´t speed up in every frame but only when a meal is eaten
         gameSpeed = 0;
         // save the position of the tail to add it if the food is eaten
         int snakeTailX = (int) snakeAsList.get(snakeAsList.size() - 1).getXPos();
         int snakeTailY = (int) snakeAsList.get(snakeAsList.size() - 1).getYPos();
 
-        // set new values for last element depending on direction
-        if (direction == 1 || direction == -1) {
-            snakeAsList.get(snakeAsList.size() - 1).setXPos((int) (snakeAsList.get(0).getXPos() + (50 * direction)));
-            snakeAsList.get(snakeAsList.size() - 1).setYPos((int) snakeAsList.get(0).getYPos());
-        } else if (direction == 2 || direction == -2) {
-            snakeAsList.get(snakeAsList.size() - 1).setXPos((int) snakeAsList.get(0).getXPos());
-            snakeAsList.get(snakeAsList.size() - 1).setYPos((int) (snakeAsList.get(0).getYPos() + (50 * direction / 2)));
-        }
-
-        // add the last element as new element at the head of snake (first element)
-        snakeAsList.add(0, snakeAsList.get(snakeAsList.size() - 1));
-
-        //set color of snake, needed to make headColor correct
-        changeColor(getColor(color_e));
-
-        // remove last element of snake
-        snakeAsList.remove(snakeAsList.size() - 1);
-
-        currentDirection = direction;
+        movementUpdate();
 
         // spawn food on another position if food is eaten
         if (food.getX() == snakeAsList.get(0).getXPos() && food.getY() == snakeAsList.get(0).getYPos()) {
@@ -157,8 +145,8 @@ public class GameStep {
     public boolean checkIfOver() {
         // Collision detection: Snake beyond borders
         // If the direction is not changed at the borders and snake's head is outside border then end the game
-        if (snakeAsList.get(0).getXPos() >= 900 | snakeAsList.get(0).getXPos() < 0) return true;
-        else if (snakeAsList.get(0).getYPos() >= 600 | snakeAsList.get(0).getYPos() < 0) return true;
+        if (head.getXPos() >= screenWidth | head.getXPos() < 0) return true;
+        else if (head.getYPos() >= screenHeight | head.getYPos() < 0) return true;
 
         // Collision detection: Snake bites itself
         // If the snake head is in the same position as another snake segment then end the game
@@ -169,6 +157,28 @@ public class GameStep {
             }
         }
         return false;
+    }
+
+    public void movementUpdate() {
+        // set new values for last element depending on direction
+        if (direction == SnakeApplication.RIGHT || direction == SnakeApplication.LEFT) {
+            head.setXPos(tail.getXPos() + (50 * direction));
+            head.setYPos(tail.getYPos());
+        } else if (direction == SnakeApplication.DOWN || direction == SnakeApplication.UP) {
+            head.setXPos(tail.getXPos());
+            head.setYPos(tail.getYPos() + ((double) (50 * direction) / 2));
+        }
+
+        // add the last element as new element at the head of snake (first element)
+        snakeAsList.add(0, head);
+
+        //set color of snake, needed to make headColor correct
+        changeColor(getColor(color_e));
+
+        // remove last element of snake
+        snakeAsList.remove(snakeAsList.size() - 1);
+
+        currentDirection = direction;
     }
 
     public void setDirection(int direction, Thread thread) {
@@ -182,8 +192,8 @@ public class GameStep {
 
     //spawn food at a random position and print it (9 and 6 for max size of the scene)
     public void spawnFood() {
-        food.setX(generateRandomPosition(9));
-        food.setY(generateRandomPosition(6));
+        food.setX(generateRandomPosition(screenWidth / 100));
+        food.setY(generateRandomPosition(screenHeight / 100));
         //spawn food again if it is on the same position as a snake segment
         for (SnakeSegment snake : snakeAsList) {
             if (food.getX() == snake.getXPos() && food.getY() == snake.getYPos()) {

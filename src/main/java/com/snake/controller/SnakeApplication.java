@@ -42,6 +42,9 @@ import java.io.File;
  */
 public class SnakeApplication extends Application {
     private Stage stage;
+    private int screenWidth = 900;
+    private int screenHeight = 600;
+    public static final int RIGHT = 1, LEFT = -1, UP = -2, DOWN = 2;
     private GameStep.snakeColor_E startColor= GameStep.snakeColor_E.green;
 
     private static final String PATH_SOUND_NEW_HIGHSCORE = "src/main/resources/sound_new_highscore.mp3";
@@ -65,7 +68,7 @@ public class SnakeApplication extends Application {
     public void switchToMainMenuScene() {
         StackPane stackLayout = new StackPane();
         stackLayout.setBackground(new Background(getBackground()));
-        Scene scene = new Scene(stackLayout, 900, 600);
+        Scene scene = new Scene(stackLayout, screenWidth, screenHeight);
 
         // Set the position of all the Windows to the center
         Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
@@ -114,7 +117,7 @@ public class SnakeApplication extends Application {
     public void switchToOptionsScene(){
         StackPane stackLayout = new StackPane();
         stackLayout.setBackground(new Background(getBackground()));
-        Scene scene = new Scene(stackLayout, 900, 600);
+        Scene scene = new Scene(stackLayout, screenWidth, screenHeight);
 
         Button backButton = new Button("Back");
         backButton.setStyle("-fx-background-color: #3498db;");
@@ -200,19 +203,19 @@ public class SnakeApplication extends Application {
         stage.setScene(scene);
         stage.setResizable(false);
         GameBoard gameBoard = new GameBoard(canvas);
-        GameStep gameStep = new GameStep(gameBoard, startColor);
+        GameStep gameStep = new GameStep(gameBoard, screenWidth, screenHeight, startColor);
 
-        GameThread thread = new GameThread(gameBoard, gameStep, this, 375);
+        GameThread thread = new GameThread(gameBoard, gameStep, this, 400);
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
             // Assign direction to keyboard (W,A,S,D keys) and prevent reverse movement
-            if (key.getCode() == KeyCode.A && gameStep.getCurrentDirection() != 1) {
-                gameStep.setDirection(-1, thread);
-            } else if (key.getCode() == KeyCode.D && gameStep.getCurrentDirection() != -1) {
-                gameStep.setDirection(1, thread);
-            } else if (key.getCode() == KeyCode.W && gameStep.getCurrentDirection() != 2) {
-                gameStep.setDirection(-2, thread);
-            } else if (key.getCode() == KeyCode.S && gameStep.getCurrentDirection() != -2) {
-                gameStep.setDirection(2, thread);
+            if (key.getCode() == KeyCode.A && gameStep.getCurrentDirection() != RIGHT) {
+                gameStep.setDirection(LEFT, thread);
+            } else if (key.getCode() == KeyCode.D && gameStep.getCurrentDirection() != LEFT) {
+                gameStep.setDirection(RIGHT, thread);
+            } else if (key.getCode() == KeyCode.W && gameStep.getCurrentDirection() != DOWN) {
+                gameStep.setDirection(UP, thread);
+            } else if (key.getCode() == KeyCode.S && gameStep.getCurrentDirection() != UP) {
+                gameStep.setDirection(DOWN, thread);
             }
         });
         thread.start();

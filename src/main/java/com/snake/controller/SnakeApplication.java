@@ -196,7 +196,6 @@ public class SnakeApplication extends Application {
                 BackgroundPosition.DEFAULT,
                 new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true)
         );
-
         return background;
     }
 
@@ -239,6 +238,7 @@ public class SnakeApplication extends Application {
         // Create an ImageView to display the image
         ImageView imageView = new ImageView(textureImage);
 
+        // Set the Background
         stackLayout.setBackground(new Background(getGameOverScreen()));
 
         // Create a text to display the highscore
@@ -248,9 +248,7 @@ public class SnakeApplication extends Application {
         highscoreText.setTextAlignment(TextAlignment.CENTER);
 
         stackLayout.getChildren().add(highscoreText);
-
         highscoreText.setTranslateY(200);
-
 
         // Create a text to display the score
         Text scoreText = new Text("Your score: " + score);
@@ -259,9 +257,7 @@ public class SnakeApplication extends Application {
         scoreText.setTextAlignment(TextAlignment.CENTER);
 
         stackLayout.getChildren().add(scoreText);
-
         scoreText.setTranslateY(250);
-
 
         stackLayout.getChildren().add(imageView);
         StackPane.setAlignment(imageView, Pos.BOTTOM_RIGHT);
@@ -275,6 +271,7 @@ public class SnakeApplication extends Application {
             stage.setResizable(false);
         });
 
+        // Switch to the main menu when any button is pressed
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
             switchToMainMenuScene();
         });

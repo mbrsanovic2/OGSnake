@@ -192,7 +192,7 @@ public class GameStep {
         return currentDirection;
     }
 
-    // Spawn food at a random position and print it (9 and 6 for max size of the scene)
+    // Spawn food at a random position and print it
     public void spawnFood() {
         food.setX(generateRandomPosition(screenWidth / 100));
         food.setY(generateRandomPosition(screenHeight / 100));

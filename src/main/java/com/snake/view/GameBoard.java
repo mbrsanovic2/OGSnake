@@ -2,7 +2,6 @@ package com.snake.view;
 
 import javafx.application.Platform;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
 /**
@@ -25,6 +24,4 @@ public class GameBoard {
             canvas.getChildren().add(shape);
         });
     }
-    // todo: DrawFruit
-    // todo: Setting up Initial GameState
 }

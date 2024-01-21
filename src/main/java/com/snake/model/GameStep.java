@@ -6,12 +6,9 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
-
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
-
 import java.util.Random;
 
 /**
@@ -24,7 +21,6 @@ public class GameStep {
     private int screenWidth;
     private int screenHeight;
     private SnakeSegment head, tail;
-    private int snakeTailX, snakeTailY;
     private int score = 0;
 
     //enum for the color pattern & start color
@@ -33,7 +29,7 @@ public class GameStep {
 
     private List<SnakeSegment> snakeAsList = new LinkedList<>();
 
-    //Create a food rectangle
+    // Create a food rectangle
     private Rectangle food = new Rectangle(0, 0, 50, 50);
 
     // Reference to View for Drawing purposes
@@ -62,12 +58,11 @@ public class GameStep {
         for (SnakeSegment snake : snakeAsList) {
             gameBoard.drawShape(snake.getRect());
         }
-        // spawn the first food and print it
+        // Spawn the first food and print it
         spawnFood();
         gameBoard.drawShape(food);
 
-
-        // media player for eat food sound
+        // Media player for eat food sound
         Media sound = new Media(new File(PATH_SOUND_EAT_FOOD).toURI().toString());
         mediaPlayer = new MediaPlayer(sound);
         mediaPlayer.setOnEndOfMedia(() -> mediaPlayer.stop());
@@ -81,9 +76,9 @@ public class GameStep {
     public boolean nextFrame() {
         // Save values for head and tail of snake
         savePosition();
-        //set the game speed value back to 0 so that the snake doesn´t speed up in every frame but only when a meal is eaten
+        // Set the game speed value back to 0 to only speed up if food is eaten
         gameSpeed = 0;
-        // save the position of the tail to add it if the food is eaten
+        // Save the position of the tail to add it if the food is eaten
         int snakeTailX = (int) tail.getXPos();
         int snakeTailY = (int) tail.getYPos();
 
@@ -92,12 +87,12 @@ public class GameStep {
         // Save new values for head and tail of snake after movement
         savePosition();
 
-        // spawn food on another position if food is eaten and make snake larger
+        // Spawn food on another position if food is eaten and make snake larger
         if (food.getX() == head.getXPos() && food.getY() == head.getYPos()) {
             // Play eat food sound and spawn new food
             playSoundEatFood();
             spawnFood();
-            // add a new "tail" at the position of the old one
+            // Add a new tail at the position of the old one
             snakeAsList.add(new SnakeSegment(snakeTailX, snakeTailY, bodyColor));
             // Print the new Snake segment
             gameBoard.drawShape(snakeAsList.get(snakeAsList.size() - 1).getRect());
@@ -111,7 +106,7 @@ public class GameStep {
         return checkIfOver();
     }
 
-    //Returns Color based on Enum
+    // Returns Color based on Enum
     private Color getColor(snakeColor_E snakeColor_e){
         switch (color_e){
             case green -> {
@@ -138,7 +133,7 @@ public class GameStep {
         }
     }
 
-    //changes the color of the entire snake and makes the head darker
+    // Changes the color of the entire snake and makes the head darker
     private void changeColor(Color color){
         for (SnakeSegment s : snakeAsList)
             s.setColor(color);
@@ -167,7 +162,7 @@ public class GameStep {
     }
 
     public void movementUpdate() {
-        // set new values for last element depending on direction
+        // Set new values for last element depending on direction
         if (direction == SnakeApplication.RIGHT || direction == SnakeApplication.LEFT) {
             tail.setXPos(head.getXPos() + (50 * direction));
             tail.setYPos(head.getYPos());
@@ -176,13 +171,13 @@ public class GameStep {
             tail.setYPos(head.getYPos() + ((double) (50 * direction) / 2));
         }
 
-        // add the last element as new element at the head of snake (first element)
+        // Add the last element as new element at the head of snake (first element)
         snakeAsList.add(0, tail);
 
-        //set color of snake, needed to make headColor correct
+        // Set color of snake, needed to make headColor correct
         changeColor(getColor(color_e));
 
-        // remove last element of snake
+        // Remove last element of snake
         snakeAsList.remove(snakeAsList.size() - 1);
 
         currentDirection = direction;
@@ -197,17 +192,17 @@ public class GameStep {
         return currentDirection;
     }
 
-    //spawn food at a random position and print it (9 and 6 for max size of the scene)
+    // Spawn food at a random position and print it (9 and 6 for max size of the scene)
     public void spawnFood() {
         food.setX(generateRandomPosition(screenWidth / 100));
         food.setY(generateRandomPosition(screenHeight / 100));
-        //spawn food again if it is on the same position as a snake segment
+        // Spawn food again if it is on the same position as a snake segment
         for (SnakeSegment snake : snakeAsList) {
             if (food.getX() == snake.getXPos() && food.getY() == snake.getYPos()) {
                 spawnFood();
             }
         }
-        //increase the snake speed (frame rate) with every meal eaten
+        // Increase the snake speed (frame rate) with every meal eaten
         gameSpeed += 5;
     }
 
@@ -221,7 +216,7 @@ public class GameStep {
         return gameSpeed;
     }
 
-    //Enum for Color-pattern
+    // Enum for Color-pattern
     public enum snakeColor_E{
         green,
         red,

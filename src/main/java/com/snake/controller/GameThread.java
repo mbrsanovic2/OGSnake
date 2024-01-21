@@ -2,14 +2,8 @@ package com.snake.controller;
 
 import com.snake.model.GameStep;
 import com.snake.view.GameBoard;
-import javafx.application.Platform;
-import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.media.MediaPlayer;
-
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+
 
 /**
  * Is responsible for alle the Game-Logic, implements some sort of Time Control
@@ -81,7 +75,7 @@ public class GameThread extends Thread {
         // Load highscore
         int highscore = loadHighScore();
 
-        //If game over switch to game over screen
+        // If game over switch to game over screen
         snakeApplication.switchToGameOverScreen(gameStep.getScore(), highscore);
 
         // Current score is higher than the highscore, save the new highscore

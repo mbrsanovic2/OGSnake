@@ -2,23 +2,14 @@ package com.snake.controller;
 
 import com.snake.model.GameStep;
 import com.snake.view.GameBoard;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.Observable;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListView;
-import javafx.scene.control.cell.ComboBoxListCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -34,7 +25,6 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import java.io.File;
 
 /**
@@ -46,7 +36,6 @@ public class SnakeApplication extends Application {
     private int screenHeight = 600;
     public static final int RIGHT = 1, LEFT = -1, UP = -2, DOWN = 2;
     private GameStep.snakeColor_E startColor= GameStep.snakeColor_E.green;
-
     private static final String PATH_SOUND_NEW_HIGHSCORE = "src/main/resources/sound_new_highscore.mp3";
     private static final String PATH_SOUND_GAME_OVER = "src/main/resources/sound_game_over.mp3";
 
@@ -77,8 +66,6 @@ public class SnakeApplication extends Application {
         stage.setX(x);
         stage.setY(y);
 
-        // Replace current Scene with MainMenuScene
-
         // Create Button and Text
         Button switchToGameplay = new Button("Play!");
         Text text = new Text("SNAKE");
@@ -92,7 +79,7 @@ public class SnakeApplication extends Application {
         // Add Button functionality -> OnClick execute switchToGameplayScene()
         switchToGameplay.setOnAction(execute -> switchToGameplayScene());
 
-        //Create Button for Color-Options, change style & add function
+        // Create Button for Color-Options, change style & add function
         Button switchToOptions = new Button("Change Colors");
         switchToOptions.setStyle("-fx-background-color: #3498db");
         switchToOptions.setFont(Font.font("Arial",FontWeight.BOLD,18));
@@ -108,12 +95,12 @@ public class SnakeApplication extends Application {
         StackPane.setMargin(switchToGameplay, new Insets(90));
         StackPane.setMargin(switchToOptions, new Insets(160));
 
-        //Set the created scene to the stage
+        // Set the created scene to the stage
         stage.setScene(scene);
         stage.setResizable(false);
     }
 
-    //Creates 6 ColorOption-Buttons to switch the color of the snake
+    // Creates 6 ColorOption-Buttons to switch the color of the snake
     public void switchToOptionsScene(){
         StackPane stackLayout = new StackPane();
         stackLayout.setBackground(new Background(getBackground()));
@@ -221,7 +208,7 @@ public class SnakeApplication extends Application {
         thread.start();
     }
 
-    //Create the Game Over screen
+    // Create the Game Over screen
     public void switchToGameOverScreen(int score, int highscore) {
         if (score > highscore)
             playNewHighscoreSound();
@@ -265,7 +252,6 @@ public class SnakeApplication extends Application {
 
         Scene scene = new Scene(stackLayout, 900, 600);
 
-        //Nicht auf dem Main Thread laufen
         Platform.runLater(() -> {
             stage.setScene(scene);
             stage.setResizable(false);

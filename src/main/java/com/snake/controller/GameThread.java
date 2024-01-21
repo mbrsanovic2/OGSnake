@@ -85,7 +85,7 @@ public class GameThread extends Thread {
             saveHighscore(gameStep.getScore());
         }
     }
-
+    // load score from file, default is 0
     private int loadHighScore() {
         try (BufferedReader reader = new BufferedReader(new FileReader(HIGHSCORE_FILE_PATH))) {
             String line = reader.readLine();
@@ -98,7 +98,7 @@ public class GameThread extends Thread {
         return 0;
     }
 
-
+    // save highscore in file
     private void saveHighscore(int highscore) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(HIGHSCORE_FILE_PATH))) {
             writer.write(String.valueOf(highscore));

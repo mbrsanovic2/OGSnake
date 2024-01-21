@@ -308,6 +308,7 @@ public class SnakeApplication extends Application {
         launch();
     }
 
+    // gameover sound
     public void playGameOverSound()
     {
         Media sound = new Media(new File(PATH_SOUND_GAME_OVER).toURI().toString());
@@ -317,12 +318,12 @@ public class SnakeApplication extends Application {
 
         mediaPlayer.play();
     }
-
+    // highscore sound
     public void playNewHighscoreSound()
     {
         Media sound = new Media(new File(PATH_SOUND_NEW_HIGHSCORE).toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(sound);
-
+        //stops mediaplayer when done
         mediaPlayer.setOnEndOfMedia(mediaPlayer::stop);
 
         mediaPlayer.play();

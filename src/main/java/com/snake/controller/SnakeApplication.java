@@ -123,45 +123,63 @@ public class SnakeApplication extends Application {
 
         selectGreen.setStyle("-fx-background-color: green;-fx-text-fill: black;");
         selectGreen.setFont(Font.font("Arial", FontWeight.BOLD, 18));
-        selectGreen.setMinSize(120, 60);
+        selectGreen.setMinSize(190, 90);
         StackPane.setAlignment(selectGreen,Pos.TOP_LEFT);
-        StackPane.setMargin(selectGreen,new Insets(50));
-        selectGreen.setOnAction(execute -> startColor= GameStep.snakeColor_E.green);
+        StackPane.setMargin(selectGreen,new Insets(150));
+        selectGreen.setOnAction(execute -> {
+            startColor= GameStep.snakeColor_E.green;
+            switchToMainMenuScene();
+        });
 
         selectBlue.setStyle("-fx-background-color: blue;-fx-text-fill: black;");
         selectBlue.setFont(Font.font("Arial", FontWeight.BOLD, 18));
-        selectBlue.setMinSize(120, 60);
+        selectBlue.setMinSize(190, 90);
         StackPane.setAlignment(selectBlue,Pos.TOP_CENTER);
-        StackPane.setMargin(selectBlue,new Insets(50));
-        selectBlue.setOnAction(execute->startColor= GameStep.snakeColor_E.blue);
+        StackPane.setMargin(selectBlue,new Insets(150));
+        selectBlue.setOnAction(execute-> {
+            startColor = GameStep.snakeColor_E.blue;
+            switchToMainMenuScene();
+        });
 
         selectRed.setStyle("-fx-background-color: red;-fx-text-fill: black;");
         selectRed.setFont(Font.font("Arial", FontWeight.BOLD, 18));
-        selectRed.setMinSize(120, 60);
+        selectRed.setMinSize(190, 90);
         StackPane.setAlignment(selectRed,Pos.TOP_RIGHT);
-        StackPane.setMargin(selectRed,new Insets(50));
-        selectRed.setOnAction(execute->startColor = GameStep.snakeColor_E.red);
+        StackPane.setMargin(selectRed,new Insets(150));
+        selectRed.setOnAction(execute-> {
+            startColor = GameStep.snakeColor_E.red;
+            switchToMainMenuScene();
+        });
 
         selectBlack.setStyle("-fx-background-color: black;-fx-text-fill: white;");
         selectBlack.setFont(Font.font("Arial", FontWeight.BOLD, 18));
-        selectBlack.setMinSize(120, 60);
+        selectBlack.setMinSize(190, 90);
         StackPane.setAlignment(selectBlack,Pos.CENTER_LEFT);
-        StackPane.setMargin(selectBlack,new Insets(50));
-        selectBlack.setOnAction(execute->startColor= GameStep.snakeColor_E.black);
+        StackPane.setMargin(selectBlack,new Insets(150));
+        selectBlack.setOnAction(execute-> {
+            startColor = GameStep.snakeColor_E.black;
+            switchToMainMenuScene();
+        });
 
         selectGrey.setStyle("-fx-background-color: grey;-fx-text-fill: white;");
         selectGrey.setFont(Font.font("Arial", FontWeight.BOLD, 18));
-        selectGrey.setMinSize(120, 60);
+        selectGrey.setMinSize(190, 90);
         StackPane.setAlignment(selectGrey,Pos.CENTER);
-        StackPane.setMargin(selectGrey,new Insets(0));
-        selectGrey.setOnAction(execute->startColor= GameStep.snakeColor_E.grey);
+        StackPane.setMargin(selectGrey,new Insets(150));
+        selectGrey.setOnAction(execute-> {
+            startColor = GameStep.snakeColor_E.grey;
+            switchToMainMenuScene();
+        });
 
         selectYellow.setStyle("-fx-background-color: yellow;-fx-text-fill: black;");
         selectYellow.setFont(Font.font("Arial", FontWeight.BOLD, 18));
-        selectYellow.setMinSize(120, 60);
+        selectYellow.setMinSize(190, 90);
         StackPane.setAlignment(selectYellow,Pos.CENTER_RIGHT);
-        StackPane.setMargin(selectYellow,new Insets(50));
-        selectYellow.setOnAction(execute->startColor= GameStep.snakeColor_E.yellow);
+        StackPane.setMargin(selectYellow,new Insets(150));
+        selectYellow.setOnAction(execute-> {
+            startColor = GameStep.snakeColor_E.yellow;
+            switchToMainMenuScene();
+        });
 
         stackLayout.getChildren().addAll(backButton,selectGreen,selectBlack,selectBlue,selectGrey,selectRed,selectYellow);
 
